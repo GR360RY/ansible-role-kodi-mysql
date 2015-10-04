@@ -1,7 +1,7 @@
 ---
 galaxy_info:
-  author: your name
-  description: 
+  author: Gregory Shulov
+  description: Configure and Install Mysql Database for Kodi
   company: your company (optional)
   # Some suggested licenses:
   # - BSD (default)
@@ -10,7 +10,7 @@ galaxy_info:
   # - GPLv3
   # - Apache
   # - CC-BY
-  license: license (GPLv2, CC-BY, etc)
+  license: BSD
   min_ansible_version: 1.2
   #
   # Below are all platforms currently available. Just uncomment
@@ -65,7 +65,7 @@ galaxy_info:
   #  - 9.1
   #  - 9.1
   #  - 9.2
-  #- name: Ubuntu
+  - name: Ubuntu
   #  versions:
   #  - all
   #  - lucid
@@ -76,7 +76,7 @@ galaxy_info:
   #  - quantal
   #  - raring
   #  - saucy
-  #  - trusty
+    - trusty
   #- name: SLES
   #  versions:
   #  - all
@@ -101,7 +101,7 @@ galaxy_info:
   # Below are all categories currently available. Just as with
   # the platforms above, uncomment those that apply to your role.
   #
-  #categories:
+  categories:
   #- cloud
   #- cloud:ec2
   #- cloud:gce
@@ -114,7 +114,7 @@ galaxy_info:
   #- monitoring
   #- networking
   #- packaging
-  #- system
+  - system
   #- web
 dependencies:
   - GR360RY.htpc-user
