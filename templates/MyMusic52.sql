@@ -1,9 +1,3 @@
--- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
---
--- Host: localhost    Database: MyMusic48
--- ------------------------------------------------------
--- Server version	5.5.41-0ubuntu0.14.04.1
-
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -41,6 +35,7 @@ CREATE TABLE `album` (
   `iRating` int(11) DEFAULT NULL,
   `lastScraped` varchar(20) DEFAULT NULL,
   `dateAdded` varchar(20) DEFAULT NULL,
+  `strReleaseType` text,
   PRIMARY KEY (`idAlbum`),
   UNIQUE KEY `idxAlbum_2` (`strMusicBrainzAlbumID`(36)),
   KEY `idxAlbum` (`strAlbum`(255)),
@@ -65,7 +60,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER tgrDeleteAlbum AFTER delete ON album FOR EACH ROW BEGIN  DELETE FROM song WHERE song.idAlbum = old.idAlbum;  DELETE FROM album_artist WHERE album_artist.idAlbum = old.idAlbum;  DELETE FROM album_genre WHERE album_genre.idAlbum = old.idAlbum;  DELETE FROM albuminfosong WHERE albuminfosong.idAlbumInfo=old.idAlbum;  DELETE FROM art WHERE media_id=old.idAlbum AND media_type='album'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER tgrDeleteAlbum AFTER delete ON album FOR EACH ROW BEGIN  DELETE FROM song WHERE song.idAlbum = old.idAlbum;  DELETE FROM album_artist WHERE album_artist.idAlbum = old.idAlbum;  DELETE FROM album_genre WHERE album_genre.idAlbum = old.idAlbum;  DELETE FROM albuminfosong WHERE albuminfosong.idAlbumInfo=old.idAlbum;  DELETE FROM art WHERE media_id=old.idAlbum AND media_type='album'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -196,7 +191,8 @@ SET character_set_client = utf8;
   `strImage` tinyint NOT NULL,
   `iRating` tinyint NOT NULL,
   `bCompilation` tinyint NOT NULL,
-  `iTimesPlayed` tinyint NOT NULL
+  `iTimesPlayed` tinyint NOT NULL,
+  `strReleaseType` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -275,7 +271,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER tgrDeleteArtist AFTER delete ON artist FOR EACH ROW BEGIN  DELETE FROM album_artist WHERE album_artist.idArtist = old.idArtist;  DELETE FROM song_artist WHERE song_artist.idArtist = old.idArtist;  DELETE FROM discography WHERE discography.idArtist = old.idArtist;  DELETE FROM art WHERE media_id=old.idArtist AND media_type='artist'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER tgrDeleteArtist AFTER delete ON artist FOR EACH ROW BEGIN  DELETE FROM album_artist WHERE album_artist.idArtist = old.idArtist;  DELETE FROM song_artist WHERE song_artist.idArtist = old.idArtist;  DELETE FROM discography WHERE discography.idArtist = old.idArtist;  DELETE FROM art WHERE media_id=old.idArtist AND media_type='artist'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -331,6 +327,30 @@ CREATE TABLE `content` (
 LOCK TABLES `content` WRITE;
 /*!40000 ALTER TABLE `content` DISABLE KEYS */;
 /*!40000 ALTER TABLE `content` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cue`
+--
+
+DROP TABLE IF EXISTS `cue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cue` (
+  `idPath` int(11) DEFAULT NULL,
+  `strFileName` text,
+  `strCuesheet` text,
+  UNIQUE KEY `idxCue` (`idPath`,`strFileName`(255))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cue`
+--
+
+LOCK TABLES `cue` WRITE;
+/*!40000 ALTER TABLE `cue` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cue` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -435,6 +455,21 @@ LOCK TABLES `path` WRITE;
 INSERT INTO `path` VALUES (1,'{{ htpc_media_path }}/{{ htpc_media_music }}/','');
 /*!40000 ALTER TABLE `path` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER tgrDeletePath AFTER delete ON path FOR EACH ROW BEGIN  DELETE FROM cue WHERE cue.idPath = old.idPath; END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `song`
@@ -463,6 +498,7 @@ CREATE TABLE `song` (
   `lastplayed` varchar(20) DEFAULT NULL,
   `rating` char(1) DEFAULT '0',
   `comment` text,
+  `mood` text,
   PRIMARY KEY (`idSong`),
   UNIQUE KEY `idxSong7` (`idAlbum`,`strMusicBrainzTrackID`(36)),
   KEY `idxSong` (`strTitle`(255)),
@@ -490,7 +526,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER tgrDeleteSong AFTER delete ON song FOR EACH ROW BEGIN  DELETE FROM song_artist WHERE song_artist.idSong = old.idSong;  DELETE FROM song_genre WHERE song_genre.idSong = old.idSong;  DELETE FROM karaokedata WHERE karaokedata.idSong = old.idSong;  DELETE FROM art WHERE media_id=old.idSong AND media_type='song'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER tgrDeleteSong AFTER delete ON song FOR EACH ROW BEGIN  DELETE FROM song_artist WHERE song_artist.idSong = old.idSong;  DELETE FROM song_genre WHERE song_genre.idSong = old.idSong;  DELETE FROM karaokedata WHERE karaokedata.idSong = old.idSong;  DELETE FROM art WHERE media_id=old.idSong AND media_type='song'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -601,7 +637,9 @@ SET character_set_client = utf8;
   `iKaraDelay` tinyint NOT NULL,
   `strKaraEncoding` tinyint NOT NULL,
   `bCompilation` tinyint NOT NULL,
-  `strAlbumArtists` tinyint NOT NULL
+  `strAlbumArtists` tinyint NOT NULL,
+  `strAlbumReleaseType` tinyint NOT NULL,
+  `mood` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
 
@@ -624,7 +662,7 @@ CREATE TABLE `version` (
 
 LOCK TABLES `version` WRITE;
 /*!40000 ALTER TABLE `version` DISABLE KEYS */;
-INSERT INTO `version` VALUES (48,0);
+INSERT INTO `version` VALUES (52,0);
 /*!40000 ALTER TABLE `version` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -641,7 +679,7 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `albumartistview` AS select `album_artist`.`idAlbum` AS `idAlbum`,`album_artist`.`idArtist` AS `idArtist`,`artist`.`strArtist` AS `strArtist`,`artist`.`strMusicBrainzArtistID` AS `strMusicBrainzArtistID`,`album_artist`.`boolFeatured` AS `boolFeatured`,`album_artist`.`strJoinPhrase` AS `strJoinPhrase`,`album_artist`.`iOrder` AS `iOrder` from (`album_artist` join `artist` on((`album_artist`.`idArtist` = `artist`.`idArtist`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -660,8 +698,8 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `albumview` AS select `album`.`idAlbum` AS `idAlbum`,`album`.`strAlbum` AS `strAlbum`,`album`.`strMusicBrainzAlbumID` AS `strMusicBrainzAlbumID`,`album`.`strArtists` AS `strArtists`,`album`.`strGenres` AS `strGenres`,`album`.`iYear` AS `iYear`,`album`.`strMoods` AS `strMoods`,`album`.`strStyles` AS `strStyles`,`album`.`strThemes` AS `strThemes`,`album`.`strReview` AS `strReview`,`album`.`strLabel` AS `strLabel`,`album`.`strType` AS `strType`,`album`.`strImage` AS `strImage`,`album`.`iRating` AS `iRating`,`album`.`bCompilation` AS `bCompilation`,min(`song`.`iTimesPlayed`) AS `iTimesPlayed` from (`album` left join `song` on((`album`.`idAlbum` = `song`.`idAlbum`))) group by `album`.`idAlbum` */;
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `albumview` AS select `album`.`idAlbum` AS `idAlbum`,`album`.`strAlbum` AS `strAlbum`,`album`.`strMusicBrainzAlbumID` AS `strMusicBrainzAlbumID`,`album`.`strArtists` AS `strArtists`,`album`.`strGenres` AS `strGenres`,`album`.`iYear` AS `iYear`,`album`.`strMoods` AS `strMoods`,`album`.`strStyles` AS `strStyles`,`album`.`strThemes` AS `strThemes`,`album`.`strReview` AS `strReview`,`album`.`strLabel` AS `strLabel`,`album`.`strType` AS `strType`,`album`.`strImage` AS `strImage`,`album`.`iRating` AS `iRating`,`album`.`bCompilation` AS `bCompilation`,(select min(`song`.`iTimesPlayed`) from `song` where (`song`.`idAlbum` = `album`.`idAlbum`)) AS `iTimesPlayed`,`album`.`strReleaseType` AS `strReleaseType` from `album` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -679,7 +717,7 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `artistview` AS select `artist`.`idArtist` AS `idArtist`,`artist`.`strArtist` AS `strArtist`,`artist`.`strMusicBrainzArtistID` AS `strMusicBrainzArtistID`,`artist`.`strBorn` AS `strBorn`,`artist`.`strFormed` AS `strFormed`,`artist`.`strGenres` AS `strGenres`,`artist`.`strMoods` AS `strMoods`,`artist`.`strStyles` AS `strStyles`,`artist`.`strInstruments` AS `strInstruments`,`artist`.`strBiography` AS `strBiography`,`artist`.`strDied` AS `strDied`,`artist`.`strDisbanded` AS `strDisbanded`,`artist`.`strYearsActive` AS `strYearsActive`,`artist`.`strImage` AS `strImage`,`artist`.`strFanart` AS `strFanart` from `artist` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -698,7 +736,7 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `songartistview` AS select `song_artist`.`idSong` AS `idSong`,`song_artist`.`idArtist` AS `idArtist`,`artist`.`strArtist` AS `strArtist`,`artist`.`strMusicBrainzArtistID` AS `strMusicBrainzArtistID`,`song_artist`.`boolFeatured` AS `boolFeatured`,`song_artist`.`strJoinPhrase` AS `strJoinPhrase`,`song_artist`.`iOrder` AS `iOrder` from (`song_artist` join `artist` on((`song_artist`.`idArtist` = `artist`.`idArtist`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
@@ -717,8 +755,8 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `songview` AS select `song`.`idSong` AS `idSong`,`song`.`strArtists` AS `strArtists`,`song`.`strGenres` AS `strGenres`,`song`.`strTitle` AS `strTitle`,`song`.`iTrack` AS `iTrack`,`song`.`iDuration` AS `iDuration`,`song`.`iYear` AS `iYear`,`song`.`strFileName` AS `strFileName`,`song`.`strMusicBrainzTrackID` AS `strMusicBrainzTrackID`,`song`.`iTimesPlayed` AS `iTimesPlayed`,`song`.`iStartOffset` AS `iStartOffset`,`song`.`iEndOffset` AS `iEndOffset`,`song`.`lastplayed` AS `lastplayed`,`song`.`rating` AS `rating`,`song`.`comment` AS `comment`,`song`.`idAlbum` AS `idAlbum`,`album`.`strAlbum` AS `strAlbum`,`path`.`strPath` AS `strPath`,`karaokedata`.`iKaraNumber` AS `iKaraNumber`,`karaokedata`.`iKaraDelay` AS `iKaraDelay`,`karaokedata`.`strKaraEncoding` AS `strKaraEncoding`,`album`.`bCompilation` AS `bCompilation`,`album`.`strArtists` AS `strAlbumArtists` from (((`song` join `album` on((`song`.`idAlbum` = `album`.`idAlbum`))) join `path` on((`song`.`idPath` = `path`.`idPath`))) left join `karaokedata` on((`song`.`idSong` = `karaokedata`.`idSong`))) */;
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `songview` AS select `song`.`idSong` AS `idSong`,`song`.`strArtists` AS `strArtists`,`song`.`strGenres` AS `strGenres`,`song`.`strTitle` AS `strTitle`,`song`.`iTrack` AS `iTrack`,`song`.`iDuration` AS `iDuration`,`song`.`iYear` AS `iYear`,`song`.`strFileName` AS `strFileName`,`song`.`strMusicBrainzTrackID` AS `strMusicBrainzTrackID`,`song`.`iTimesPlayed` AS `iTimesPlayed`,`song`.`iStartOffset` AS `iStartOffset`,`song`.`iEndOffset` AS `iEndOffset`,`song`.`lastplayed` AS `lastplayed`,`song`.`rating` AS `rating`,`song`.`comment` AS `comment`,`song`.`idAlbum` AS `idAlbum`,`album`.`strAlbum` AS `strAlbum`,`path`.`strPath` AS `strPath`,`karaokedata`.`iKaraNumber` AS `iKaraNumber`,`karaokedata`.`iKaraDelay` AS `iKaraDelay`,`karaokedata`.`strKaraEncoding` AS `strKaraEncoding`,`album`.`bCompilation` AS `bCompilation`,`album`.`strArtists` AS `strAlbumArtists`,`album`.`strReleaseType` AS `strAlbumReleaseType`,`song`.`mood` AS `mood` from (((`song` join `album` on((`song`.`idAlbum` = `album`.`idAlbum`))) join `path` on((`song`.`idPath` = `path`.`idPath`))) left join `karaokedata` on((`song`.`idSong` = `karaokedata`.`idSong`))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -732,4 +770,3 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-24 19:26:09

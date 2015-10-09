@@ -16,58 +16,69 @@ Overview
 Role Variables
 --------------
 
-```yaml
-kodi_mysqldb_host: "{{ ansible_default_ipv4.address }}"
-kodi_mysqldb_user: kodi
-kodi_mysqldb_password: kodi
+ name                       | default                              
+----------------------------|--------------------------------------
+ kodi_mysqldb_host          | "{{ ansible_default_ipv4.address }}" 
+ kodi_mysqldb_user          | kodi
+ kodi_mysqldb_password      | kodi
 
-
-media_path:                 # Location of xbmc media folders.
-
-movies_folder:
-tv_folder:
-music_folder:
-```
 
 Dependencies
 ------------
 
-This role is a part of `htpc-ansible` playbook that includes additional set of components required for HTPC automation.
+ Role Name| Description
+----------|-----------
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--user-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645) | Create htpc user on Linux.
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--media-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4926)| Create HTPC Media Folders.
 
-The following list of roles can be used together with kodi-mysql role:
+Variables defined in `GR360RY.htpc-user` role:
 
-     - kodi-client
-     - htpc-nas
-     - sickbeard
-     - couchpotato
-     - subnzbd
-     - deluge
-     - htpc-manager
-     - tvheadend
+ GR360RY.htpc-user        | Default       | Comment          
+--------------------------|---------------|---------
+ htpc_user_username       | htpc          | Username
+ htpc_user_password       | htpc          | Password
+ htpc_user_shell          | /bin/bash     | Shell
+ htpc_user_ssh_service    | yes           | Install sshd service
+ htpc_user_sudo_access    | yes           | Sudo Access
 
-Detailed info can be found following this link:
+Variables defined in `GR360RY.htpc-media` role:
 
-https://github.com/GR360RY/htpc-ansible
+ GR360RY.htpc-media       | Default       | Comment          
+--------------------------|---------------|---------
+ htpc_media_path          | /mnt/media    |
+ htpc_media_movies        | movies        |
+ htpc_media_tv            | tv            |
+ htpc_media_music         | music         |
+ htpc_media_pictures      | pictures      |
 
 
 Example Playbook
 -------------------------
 
+Configure Kodi Mysql Database:
+
 ```
-- hosts: htpc-server
+    - hosts: htpc
 
-  vars:
-    kodi_mysqldb_user: xbmc
-    kodi_mysqldb_password: xbmc
-    media_path: /mnt/xbmc
+      vars:
 
-    movies_folder: movies
-    tv_folder: tv
-    music_folder: music
+        kodi_mysqldb_user: foo
+        kodi_mysqldb_password: bar
 
-  roles:
-    - role: kodi-mysql
+      roles:
+        - role: GR360RY.kodi-mysql
 ```
+
+Configure Kodi together with Kodi Mysql Database ( download GR360RY.kodi-client role ):
+
+```
+    - hosts: htpc
+
+      roles:
+        - role: GR360RY.kodi-client
+        - role: GR360RY.kodi-mysql
+```
+
 
 HTPC-Ansible Project
 --------------------

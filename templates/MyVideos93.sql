@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.44, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: MyVideos90
+-- Host: localhost    Database: MyVideos93
 -- ------------------------------------------------------
--- Server version	5.5.41-0ubuntu0.14.04.1
+-- Server version	5.5.44-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,105 +16,28 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `actorlinkepisode`
+-- Table structure for table `actor`
 --
 
-DROP TABLE IF EXISTS `actorlinkepisode`;
+DROP TABLE IF EXISTS `actor`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `actorlinkepisode` (
-  `idActor` int(11) DEFAULT NULL,
-  `idEpisode` int(11) DEFAULT NULL,
-  `strRole` text,
-  `iOrder` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_actorlinkepisode_1` (`idActor`,`idEpisode`),
-  UNIQUE KEY `ix_actorlinkepisode_2` (`idEpisode`,`idActor`)
+CREATE TABLE `actor` (
+  `actor_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  `art_urls` text,
+  PRIMARY KEY (`actor_id`),
+  UNIQUE KEY `ix_actor_1` (`name`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `actorlinkepisode`
+-- Dumping data for table `actor`
 --
 
-LOCK TABLES `actorlinkepisode` WRITE;
-/*!40000 ALTER TABLE `actorlinkepisode` DISABLE KEYS */;
-/*!40000 ALTER TABLE `actorlinkepisode` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `actorlinkmovie`
---
-
-DROP TABLE IF EXISTS `actorlinkmovie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `actorlinkmovie` (
-  `idActor` int(11) DEFAULT NULL,
-  `idMovie` int(11) DEFAULT NULL,
-  `strRole` text,
-  `iOrder` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_actorlinkmovie_1` (`idActor`,`idMovie`),
-  UNIQUE KEY `ix_actorlinkmovie_2` (`idMovie`,`idActor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `actorlinkmovie`
---
-
-LOCK TABLES `actorlinkmovie` WRITE;
-/*!40000 ALTER TABLE `actorlinkmovie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `actorlinkmovie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `actorlinktvshow`
---
-
-DROP TABLE IF EXISTS `actorlinktvshow`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `actorlinktvshow` (
-  `idActor` int(11) DEFAULT NULL,
-  `idShow` int(11) DEFAULT NULL,
-  `strRole` text,
-  `iOrder` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_actorlinktvshow_1` (`idActor`,`idShow`),
-  UNIQUE KEY `ix_actorlinktvshow_2` (`idShow`,`idActor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `actorlinktvshow`
---
-
-LOCK TABLES `actorlinktvshow` WRITE;
-/*!40000 ALTER TABLE `actorlinktvshow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `actorlinktvshow` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `actors`
---
-
-DROP TABLE IF EXISTS `actors`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `actors` (
-  `idActor` int(11) NOT NULL AUTO_INCREMENT,
-  `strActor` text,
-  `strThumb` text,
-  PRIMARY KEY (`idActor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `actors`
---
-
-LOCK TABLES `actors` WRITE;
-/*!40000 ALTER TABLE `actors` DISABLE KEYS */;
-/*!40000 ALTER TABLE `actors` ENABLE KEYS */;
+LOCK TABLES `actor` WRITE;
+/*!40000 ALTER TABLE `actor` DISABLE KEYS */;
+/*!40000 ALTER TABLE `actor` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -125,12 +48,40 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_person AFTER DELETE ON actors FOR EACH ROW BEGIN DELETE FROM art WHERE media_id=old.idActor AND media_type IN ('actor','artist','writer','director'); END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_person AFTER DELETE ON actor FOR EACH ROW BEGIN DELETE FROM art WHERE media_id=old.actor_id AND media_type IN ('actor','artist','writer','director'); END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Table structure for table `actor_link`
+--
+
+DROP TABLE IF EXISTS `actor_link`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `actor_link` (
+  `actor_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `media_type` text,
+  `role` text,
+  `cast_order` int(11) DEFAULT NULL,
+  UNIQUE KEY `ix_actor_link_1` (`actor_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_actor_link_2` (`media_id`,`media_type`(20),`actor_id`),
+  KEY `ix_actor_link_3` (`media_type`(20))
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `actor_link`
+--
+
+LOCK TABLES `actor_link` WRITE;
+/*!40000 ALTER TABLE `actor_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `actor_link` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `art`
@@ -157,30 +108,6 @@ CREATE TABLE `art` (
 LOCK TABLES `art` WRITE;
 /*!40000 ALTER TABLE `art` DISABLE KEYS */;
 /*!40000 ALTER TABLE `art` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `artistlinkmusicvideo`
---
-
-DROP TABLE IF EXISTS `artistlinkmusicvideo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `artistlinkmusicvideo` (
-  `idArtist` int(11) DEFAULT NULL,
-  `idMVideo` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_artistlinkmusicvideo_1` (`idArtist`,`idMVideo`),
-  UNIQUE KEY `ix_artistlinkmusicvideo_2` (`idMVideo`,`idArtist`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `artistlinkmusicvideo`
---
-
-LOCK TABLES `artistlinkmusicvideo` WRITE;
-/*!40000 ALTER TABLE `artistlinkmusicvideo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `artistlinkmusicvideo` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -221,9 +148,10 @@ DROP TABLE IF EXISTS `country`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `country` (
-  `idCountry` int(11) NOT NULL AUTO_INCREMENT,
-  `strCountry` text,
-  PRIMARY KEY (`idCountry`)
+  `country_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  PRIMARY KEY (`country_id`),
+  UNIQUE KEY `ix_country_1` (`name`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -237,123 +165,55 @@ LOCK TABLES `country` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `countrylinkmovie`
+-- Table structure for table `country_link`
 --
 
-DROP TABLE IF EXISTS `countrylinkmovie`;
+DROP TABLE IF EXISTS `country_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `countrylinkmovie` (
-  `idCountry` int(11) DEFAULT NULL,
-  `idMovie` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_countrylinkmovie_1` (`idCountry`,`idMovie`),
-  UNIQUE KEY `ix_countrylinkmovie_2` (`idMovie`,`idCountry`)
+CREATE TABLE `country_link` (
+  `country_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `media_type` text,
+  UNIQUE KEY `ix_country_link_1` (`country_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_country_link_2` (`media_id`,`media_type`(20),`country_id`),
+  KEY `ix_country_link_3` (`media_type`(20))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `countrylinkmovie`
+-- Dumping data for table `country_link`
 --
 
-LOCK TABLES `countrylinkmovie` WRITE;
-/*!40000 ALTER TABLE `countrylinkmovie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `countrylinkmovie` ENABLE KEYS */;
+LOCK TABLES `country_link` WRITE;
+/*!40000 ALTER TABLE `country_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `country_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `directorlinkepisode`
+-- Table structure for table `director_link`
 --
 
-DROP TABLE IF EXISTS `directorlinkepisode`;
+DROP TABLE IF EXISTS `director_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `directorlinkepisode` (
-  `idDirector` int(11) DEFAULT NULL,
-  `idEpisode` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_directorlinkepisode_1` (`idDirector`,`idEpisode`),
-  UNIQUE KEY `ix_directorlinkepisode_2` (`idEpisode`,`idDirector`)
+CREATE TABLE `director_link` (
+  `actor_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `media_type` text,
+  UNIQUE KEY `ix_director_link_1` (`actor_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_director_link_2` (`media_id`,`media_type`(20),`actor_id`),
+  KEY `ix_director_link_3` (`media_type`(20))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `directorlinkepisode`
+-- Dumping data for table `director_link`
 --
 
-LOCK TABLES `directorlinkepisode` WRITE;
-/*!40000 ALTER TABLE `directorlinkepisode` DISABLE KEYS */;
-/*!40000 ALTER TABLE `directorlinkepisode` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `directorlinkmovie`
---
-
-DROP TABLE IF EXISTS `directorlinkmovie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `directorlinkmovie` (
-  `idDirector` int(11) DEFAULT NULL,
-  `idMovie` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_directorlinkmovie_1` (`idDirector`,`idMovie`),
-  UNIQUE KEY `ix_directorlinkmovie_2` (`idMovie`,`idDirector`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `directorlinkmovie`
---
-
-LOCK TABLES `directorlinkmovie` WRITE;
-/*!40000 ALTER TABLE `directorlinkmovie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `directorlinkmovie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `directorlinkmusicvideo`
---
-
-DROP TABLE IF EXISTS `directorlinkmusicvideo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `directorlinkmusicvideo` (
-  `idDirector` int(11) DEFAULT NULL,
-  `idMVideo` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_directorlinkmusicvideo_1` (`idDirector`,`idMVideo`),
-  UNIQUE KEY `ix_directorlinkmusicvideo_2` (`idMVideo`,`idDirector`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `directorlinkmusicvideo`
---
-
-LOCK TABLES `directorlinkmusicvideo` WRITE;
-/*!40000 ALTER TABLE `directorlinkmusicvideo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `directorlinkmusicvideo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `directorlinktvshow`
---
-
-DROP TABLE IF EXISTS `directorlinktvshow`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `directorlinktvshow` (
-  `idDirector` int(11) DEFAULT NULL,
-  `idShow` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_directorlinktvshow_1` (`idDirector`,`idShow`),
-  UNIQUE KEY `ix_directorlinktvshow_2` (`idShow`,`idDirector`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `directorlinktvshow`
---
-
-LOCK TABLES `directorlinktvshow` WRITE;
-/*!40000 ALTER TABLE `directorlinktvshow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `directorlinktvshow` ENABLE KEYS */;
+LOCK TABLES `director_link` WRITE;
+/*!40000 ALTER TABLE `director_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `director_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -419,7 +279,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_episode AFTER DELETE ON episode FOR EACH ROW BEGIN DELETE FROM actorlinkepisode WHERE idEpisode=old.idEpisode; DELETE FROM directorlinkepisode WHERE idEpisode=old.idEpisode; DELETE FROM writerlinkepisode WHERE idEpisode=old.idEpisode; DELETE FROM art WHERE media_id=old.idEpisode AND media_type='episode'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_episode AFTER DELETE ON episode FOR EACH ROW BEGIN DELETE FROM actor_link WHERE media_id=old.idEpisode AND media_type='episode'; DELETE FROM director_link WHERE media_id=old.idEpisode AND media_type='episode'; DELETE FROM writer_link WHERE media_id=old.idEpisode AND media_type='episode'; DELETE FROM art WHERE media_id=old.idEpisode AND media_type='episode'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -427,14 +287,14 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Temporary table structure for view `episodeview`
+-- Temporary table structure for view `episode_view`
 --
 
-DROP TABLE IF EXISTS `episodeview`;
-/*!50001 DROP VIEW IF EXISTS `episodeview`*/;
+DROP TABLE IF EXISTS `episode_view`;
+/*!50001 DROP VIEW IF EXISTS `episode_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `episodeview` (
+/*!50001 CREATE TABLE `episode_view` (
   `idEpisode` tinyint NOT NULL,
   `idFile` tinyint NOT NULL,
   `c00` tinyint NOT NULL,
@@ -468,7 +328,7 @@ SET character_set_client = utf8;
   `lastPlayed` tinyint NOT NULL,
   `dateAdded` tinyint NOT NULL,
   `strTitle` tinyint NOT NULL,
-  `strStudio` tinyint NOT NULL,
+  `studio` tinyint NOT NULL,
   `premiered` tinyint NOT NULL,
   `mpaa` tinyint NOT NULL,
   `resumeTimeInSeconds` tinyint NOT NULL,
@@ -504,6 +364,21 @@ LOCK TABLES `files` WRITE;
 /*!40000 ALTER TABLE `files` DISABLE KEYS */;
 /*!40000 ALTER TABLE `files` ENABLE KEYS */;
 UNLOCK TABLES;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8 */ ;
+/*!50003 SET character_set_results = utf8 */ ;
+/*!50003 SET collation_connection  = utf8_general_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = '' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_file AFTER DELETE ON files FOR EACH ROW BEGIN DELETE FROM bookmark WHERE idFile=old.idFile; DELETE FROM settings WHERE idFile=old.idFile; DELETE FROM stacktimes WHERE idFile=old.idFile; DELETE FROM streamdetails WHERE idFile=old.idFile; END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `genre`
@@ -513,9 +388,10 @@ DROP TABLE IF EXISTS `genre`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `genre` (
-  `idGenre` int(11) NOT NULL AUTO_INCREMENT,
-  `strGenre` text,
-  PRIMARY KEY (`idGenre`)
+  `genre_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  PRIMARY KEY (`genre_id`),
+  UNIQUE KEY `ix_genre_1` (`name`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -529,75 +405,29 @@ LOCK TABLES `genre` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `genrelinkmovie`
+-- Table structure for table `genre_link`
 --
 
-DROP TABLE IF EXISTS `genrelinkmovie`;
+DROP TABLE IF EXISTS `genre_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `genrelinkmovie` (
-  `idGenre` int(11) DEFAULT NULL,
-  `idMovie` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_genrelinkmovie_1` (`idGenre`,`idMovie`),
-  UNIQUE KEY `ix_genrelinkmovie_2` (`idMovie`,`idGenre`)
+CREATE TABLE `genre_link` (
+  `genre_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `media_type` text,
+  UNIQUE KEY `ix_genre_link_1` (`genre_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_genre_link_2` (`media_id`,`media_type`(20),`genre_id`),
+  KEY `ix_genre_link_3` (`media_type`(20))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `genrelinkmovie`
+-- Dumping data for table `genre_link`
 --
 
-LOCK TABLES `genrelinkmovie` WRITE;
-/*!40000 ALTER TABLE `genrelinkmovie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `genrelinkmovie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `genrelinkmusicvideo`
---
-
-DROP TABLE IF EXISTS `genrelinkmusicvideo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `genrelinkmusicvideo` (
-  `idGenre` int(11) DEFAULT NULL,
-  `idMVideo` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_genrelinkmusicvideo_1` (`idGenre`,`idMVideo`),
-  UNIQUE KEY `ix_genrelinkmusicvideo_2` (`idMVideo`,`idGenre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `genrelinkmusicvideo`
---
-
-LOCK TABLES `genrelinkmusicvideo` WRITE;
-/*!40000 ALTER TABLE `genrelinkmusicvideo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `genrelinkmusicvideo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `genrelinktvshow`
---
-
-DROP TABLE IF EXISTS `genrelinktvshow`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `genrelinktvshow` (
-  `idGenre` int(11) DEFAULT NULL,
-  `idShow` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_genrelinktvshow_1` (`idGenre`,`idShow`),
-  UNIQUE KEY `ix_genrelinktvshow_2` (`idShow`,`idGenre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `genrelinktvshow`
---
-
-LOCK TABLES `genrelinktvshow` WRITE;
-/*!40000 ALTER TABLE `genrelinktvshow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `genrelinktvshow` ENABLE KEYS */;
+LOCK TABLES `genre_link` WRITE;
+/*!40000 ALTER TABLE `genre_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `genre_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -659,7 +489,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_movie AFTER DELETE ON movie FOR EACH ROW BEGIN DELETE FROM genrelinkmovie WHERE idMovie=old.idMovie; DELETE FROM actorlinkmovie WHERE idMovie=old.idMovie; DELETE FROM directorlinkmovie WHERE idMovie=old.idMovie; DELETE FROM studiolinkmovie WHERE idMovie=old.idMovie; DELETE FROM countrylinkmovie WHERE idMovie=old.idMovie; DELETE FROM writerlinkmovie WHERE idMovie=old.idMovie; DELETE FROM movielinktvshow WHERE idMovie=old.idMovie; DELETE FROM art WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM taglinks WHERE idMedia=old.idMovie AND media_type='movie'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_movie AFTER DELETE ON movie FOR EACH ROW BEGIN DELETE FROM genre_link WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM actor_link WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM director_link WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM studio_link WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM country_link WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM writer_link WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM movielinktvshow WHERE idMovie=old.idMovie; DELETE FROM art WHERE media_id=old.idMovie AND media_type='movie'; DELETE FROM tag_link WHERE media_id=old.idMovie AND media_type='movie'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -667,38 +497,14 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Table structure for table `movielinktvshow`
+-- Temporary table structure for view `movie_view`
 --
 
-DROP TABLE IF EXISTS `movielinktvshow`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `movielinktvshow` (
-  `idMovie` int(11) DEFAULT NULL,
-  `IdShow` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_movielinktvshow_1` (`IdShow`,`idMovie`),
-  UNIQUE KEY `ix_movielinktvshow_2` (`idMovie`,`IdShow`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `movielinktvshow`
---
-
-LOCK TABLES `movielinktvshow` WRITE;
-/*!40000 ALTER TABLE `movielinktvshow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `movielinktvshow` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Temporary table structure for view `movieview`
---
-
-DROP TABLE IF EXISTS `movieview`;
-/*!50001 DROP VIEW IF EXISTS `movieview`*/;
+DROP TABLE IF EXISTS `movie_view`;
+/*!50001 DROP VIEW IF EXISTS `movie_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `movieview` (
+/*!50001 CREATE TABLE `movie_view` (
   `idMovie` tinyint NOT NULL,
   `idFile` tinyint NOT NULL,
   `c00` tinyint NOT NULL,
@@ -736,6 +542,30 @@ SET character_set_client = utf8;
   `totalTimeInSeconds` tinyint NOT NULL
 ) ENGINE=MyISAM */;
 SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `movielinktvshow`
+--
+
+DROP TABLE IF EXISTS `movielinktvshow`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `movielinktvshow` (
+  `idMovie` int(11) DEFAULT NULL,
+  `IdShow` int(11) DEFAULT NULL,
+  UNIQUE KEY `ix_movielinktvshow_1` (`IdShow`,`idMovie`),
+  UNIQUE KEY `ix_movielinktvshow_2` (`idMovie`,`IdShow`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `movielinktvshow`
+--
+
+LOCK TABLES `movielinktvshow` WRITE;
+/*!40000 ALTER TABLE `movielinktvshow` DISABLE KEYS */;
+/*!40000 ALTER TABLE `movielinktvshow` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Table structure for table `musicvideo`
@@ -795,7 +625,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_musicvideo AFTER DELETE ON musicvideo FOR EACH ROW BEGIN DELETE FROM artistlinkmusicvideo WHERE idMVideo=old.idMVideo; DELETE FROM directorlinkmusicvideo WHERE idMVideo=old.idMVideo; DELETE FROM genrelinkmusicvideo WHERE idMVideo=old.idMVideo; DELETE FROM studiolinkmusicvideo WHERE idMVideo=old.idMVideo; DELETE FROM art WHERE media_id=old.idMVideo AND media_type='musicvideo'; DELETE FROM taglinks WHERE idMedia=old.idMVideo AND media_type='musicvideo'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_musicvideo AFTER DELETE ON musicvideo FOR EACH ROW BEGIN DELETE FROM actor_link WHERE media_id=old.idMVideo AND media_type='musicvideo'; DELETE FROM director_link WHERE media_id=old.idMVideo AND media_type='musicvideo'; DELETE FROM genre_link WHERE media_id=old.idMVideo AND media_type='musicvideo'; DELETE FROM studio_link WHERE media_id=old.idMVideo AND media_type='musicvideo'; DELETE FROM art WHERE media_id=old.idMVideo AND media_type='musicvideo'; DELETE FROM tag_link WHERE media_id=old.idMVideo AND media_type='musicvideo'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -803,14 +633,14 @@ DELIMITER ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
--- Temporary table structure for view `musicvideoview`
+-- Temporary table structure for view `musicvideo_view`
 --
 
-DROP TABLE IF EXISTS `musicvideoview`;
-/*!50001 DROP VIEW IF EXISTS `musicvideoview`*/;
+DROP TABLE IF EXISTS `musicvideo_view`;
+/*!50001 DROP VIEW IF EXISTS `musicvideo_view`*/;
 SET @saved_cs_client     = @@character_set_client;
 SET character_set_client = utf8;
-/*!50001 CREATE TABLE `musicvideoview` (
+/*!50001 CREATE TABLE `musicvideo_view` (
   `idMVideo` tinyint NOT NULL,
   `idFile` tinyint NOT NULL,
   `c00` tinyint NOT NULL,
@@ -879,9 +709,33 @@ CREATE TABLE `path` (
 
 LOCK TABLES `path` WRITE;
 /*!40000 ALTER TABLE `path` DISABLE KEYS */;
-INSERT INTO `path` VALUES (1,'{{ htpc_media_path }}/{{ htpc_media_movies }}/','movies','metadata.themoviedb.org',NULL,2147483647,0,'<settings><setting id=\"RatingS\" value=\"TMDb\" /><setting id=\"TrailerQ\" value=\"No\" /><setting id=\"certprefix\" value=\"Rated \" /><setting id=\"fanart\" value=\"true\" /><setting id=\"keeporiginaltitle\" value=\"false\" /><setting id=\"language\" value=\"en\" /><setting id=\"tmdbcertcountry\" value=\"us\" /><setting id=\"trailer\" value=\"true\" /></settings>',0,0,NULL,NULL),(2,'{{ htpc_media_path }}/{{ htpc_media_tv }}/','tvshows','metadata.tvdb.com',NULL,0,0,'<settings><setting id=\"RatingS\" value=\"TheTVDB\" /><setting id=\"absolutenumber\" value=\"false\" /><setting id=\"dvdorder\" value=\"false\" /><setting id=\"fallback\" value=\"true\" /><setting id=\"fanart\" value=\"true\" /><setting id=\"language\" value=\"en\" /></settings>',0,0,NULL,NULL);
+INSERT INTO `path` VALUES (1,'{{htpc_media_path}}/{{htpc_media_movies}}/','movies','metadata.themoviedb.org',NULL,2147483647,0,'<settings><setting id=\"RatingS\" value=\"TMDb\" /><setting id=\"TrailerQ\" value=\"No\" /><setting id=\"certprefix\" value=\"Rated \" /><setting id=\"fanart\" value=\"true\" /><setting id=\"keeporiginaltitle\" value=\"false\" /><setting id=\"language\" value=\"en\" /><setting id=\"tmdbcertcountry\" value=\"us\" /><setting id=\"trailer\" value=\"true\" /></settings>',0,0,NULL,NULL),(2,'{{htpc_media_path}}/{{htpc_media_tv}}/','tvshows','metadata.tvdb.com',NULL,0,0,'<settings><setting id=\"RatingS\" value=\"TheTVDB\" /><setting id=\"absolutenumber\" value=\"false\" /><setting id=\"dvdorder\" value=\"false\" /><setting id=\"fallback\" value=\"true\" /><setting id=\"fanart\" value=\"true\" /><setting id=\"language\" value=\"en\" /></settings>',0,0,NULL,NULL);
 /*!40000 ALTER TABLE `path` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `season_view`
+--
+
+DROP TABLE IF EXISTS `season_view`;
+/*!50001 DROP VIEW IF EXISTS `season_view`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `season_view` (
+  `idSeason` tinyint NOT NULL,
+  `idShow` tinyint NOT NULL,
+  `season` tinyint NOT NULL,
+  `strPath` tinyint NOT NULL,
+  `showTitle` tinyint NOT NULL,
+  `plot` tinyint NOT NULL,
+  `premiered` tinyint NOT NULL,
+  `genre` tinyint NOT NULL,
+  `studio` tinyint NOT NULL,
+  `mpaa` tinyint NOT NULL,
+  `episodes` tinyint NOT NULL,
+  `playCount` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `seasons`
@@ -916,36 +770,12 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_season AFTER DELETE ON seasons FOR EACH ROW BEGIN DELETE FROM art WHERE media_id=old.idSeason AND media_type='season'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_season AFTER DELETE ON seasons FOR EACH ROW BEGIN DELETE FROM art WHERE media_id=old.idSeason AND media_type='season'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-
---
--- Temporary table structure for view `seasonview`
---
-
-DROP TABLE IF EXISTS `seasonview`;
-/*!50001 DROP VIEW IF EXISTS `seasonview`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `seasonview` (
-  `idSeason` tinyint NOT NULL,
-  `idShow` tinyint NOT NULL,
-  `season` tinyint NOT NULL,
-  `strPath` tinyint NOT NULL,
-  `showTitle` tinyint NOT NULL,
-  `plot` tinyint NOT NULL,
-  `premiered` tinyint NOT NULL,
-  `genre` tinyint NOT NULL,
-  `strStudio` tinyint NOT NULL,
-  `mpaa` tinyint NOT NULL,
-  `episodes` tinyint NOT NULL,
-  `playCount` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
 
 --
 -- Table structure for table `sets`
@@ -978,7 +808,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_set AFTER DELETE ON sets FOR EACH ROW BEGIN DELETE FROM art WHERE media_id=old.idSet AND media_type='set'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_set AFTER DELETE ON sets FOR EACH ROW BEGIN DELETE FROM art WHERE media_id=old.idSet AND media_type='set'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -1100,9 +930,10 @@ DROP TABLE IF EXISTS `studio`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `studio` (
-  `idStudio` int(11) NOT NULL AUTO_INCREMENT,
-  `strStudio` text,
-  PRIMARY KEY (`idStudio`)
+  `studio_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  PRIMARY KEY (`studio_id`),
+  UNIQUE KEY `ix_studio_1` (`name`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1116,75 +947,29 @@ LOCK TABLES `studio` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `studiolinkmovie`
+-- Table structure for table `studio_link`
 --
 
-DROP TABLE IF EXISTS `studiolinkmovie`;
+DROP TABLE IF EXISTS `studio_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `studiolinkmovie` (
-  `idStudio` int(11) DEFAULT NULL,
-  `idMovie` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_studiolinkmovie_1` (`idStudio`,`idMovie`),
-  UNIQUE KEY `ix_studiolinkmovie_2` (`idMovie`,`idStudio`)
+CREATE TABLE `studio_link` (
+  `studio_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `media_type` text,
+  UNIQUE KEY `ix_studio_link_1` (`studio_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_studio_link_2` (`media_id`,`media_type`(20),`studio_id`),
+  KEY `ix_studio_link_3` (`media_type`(20))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `studiolinkmovie`
+-- Dumping data for table `studio_link`
 --
 
-LOCK TABLES `studiolinkmovie` WRITE;
-/*!40000 ALTER TABLE `studiolinkmovie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `studiolinkmovie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `studiolinkmusicvideo`
---
-
-DROP TABLE IF EXISTS `studiolinkmusicvideo`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `studiolinkmusicvideo` (
-  `idStudio` int(11) DEFAULT NULL,
-  `idMVideo` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_studiolinkmusicvideo_1` (`idStudio`,`idMVideo`),
-  UNIQUE KEY `ix_studiolinkmusicvideo_2` (`idMVideo`,`idStudio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `studiolinkmusicvideo`
---
-
-LOCK TABLES `studiolinkmusicvideo` WRITE;
-/*!40000 ALTER TABLE `studiolinkmusicvideo` DISABLE KEYS */;
-/*!40000 ALTER TABLE `studiolinkmusicvideo` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `studiolinktvshow`
---
-
-DROP TABLE IF EXISTS `studiolinktvshow`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `studiolinktvshow` (
-  `idStudio` int(11) DEFAULT NULL,
-  `idShow` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_studiolinktvshow_1` (`idStudio`,`idShow`),
-  UNIQUE KEY `ix_studiolinktvshow_2` (`idShow`,`idStudio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `studiolinktvshow`
---
-
-LOCK TABLES `studiolinktvshow` WRITE;
-/*!40000 ALTER TABLE `studiolinktvshow` DISABLE KEYS */;
-/*!40000 ALTER TABLE `studiolinktvshow` ENABLE KEYS */;
+LOCK TABLES `studio_link` WRITE;
+/*!40000 ALTER TABLE `studio_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `studio_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1195,10 +980,10 @@ DROP TABLE IF EXISTS `tag`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tag` (
-  `idTag` int(11) NOT NULL AUTO_INCREMENT,
-  `strTag` text,
-  PRIMARY KEY (`idTag`),
-  UNIQUE KEY `ix_tag_1` (`strTag`(255))
+  `tag_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text,
+  PRIMARY KEY (`tag_id`),
+  UNIQUE KEY `ix_tag_1` (`name`(255))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1212,29 +997,29 @@ LOCK TABLES `tag` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `taglinks`
+-- Table structure for table `tag_link`
 --
 
-DROP TABLE IF EXISTS `taglinks`;
+DROP TABLE IF EXISTS `tag_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `taglinks` (
-  `idTag` int(11) DEFAULT NULL,
-  `idMedia` int(11) DEFAULT NULL,
+CREATE TABLE `tag_link` (
+  `tag_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
   `media_type` text,
-  UNIQUE KEY `ix_taglinks_1` (`idTag`,`media_type`(20),`idMedia`),
-  UNIQUE KEY `ix_taglinks_2` (`idMedia`,`media_type`(20),`idTag`),
-  KEY `ix_taglinks_3` (`media_type`(20))
+  UNIQUE KEY `ix_tag_link_1` (`tag_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_tag_link_2` (`media_id`,`media_type`(20),`tag_id`),
+  KEY `ix_tag_link_3` (`media_type`(20))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `taglinks`
+-- Dumping data for table `tag_link`
 --
 
-LOCK TABLES `taglinks` WRITE;
-/*!40000 ALTER TABLE `taglinks` DISABLE KEYS */;
-/*!40000 ALTER TABLE `taglinks` ENABLE KEYS */;
+LOCK TABLES `tag_link` WRITE;
+/*!40000 ALTER TABLE `tag_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `tag_link` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
 /*!50003 SET @saved_cs_results     = @@character_set_results */ ;
@@ -1245,7 +1030,7 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_tag AFTER DELETE ON taglinks FOR EACH ROW BEGIN DELETE FROM tag WHERE idTag=old.idTag AND idTag NOT IN (SELECT DISTINCT idTag FROM taglinks); END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_tag AFTER DELETE ON tag_link FOR EACH ROW BEGIN DELETE FROM tag WHERE tag_id=old.tag_id AND tag_id NOT IN (SELECT DISTINCT tag_id FROM tag_link); END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
@@ -1306,12 +1091,56 @@ UNLOCK TABLES;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = '' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`%`*/ /*!50003 TRIGGER delete_tvshow AFTER DELETE ON tvshow FOR EACH ROW BEGIN DELETE FROM actorlinktvshow WHERE idShow=old.idShow; DELETE FROM directorlinktvshow WHERE idShow=old.idShow; DELETE FROM tvshowlinkpath WHERE idShow=old.idShow; DELETE FROM genrelinktvshow WHERE idShow=old.idShow; DELETE FROM movielinktvshow WHERE idShow=old.idShow; DELETE FROM seasons WHERE idShow=old.idShow; DELETE FROM art WHERE media_id=old.idShow AND media_type='tvshow'; DELETE FROM taglinks WHERE idMedia=old.idShow AND media_type='tvshow'; END */;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`kodi`@`localhost`*/ /*!50003 TRIGGER delete_tvshow AFTER DELETE ON tvshow FOR EACH ROW BEGIN DELETE FROM actor_link WHERE media_id=old.idShow AND media_type='tvshow'; DELETE FROM director_link WHERE media_id=old.idShow AND media_type='tvshow'; DELETE FROM studio_link WHERE media_id=old.idShow AND media_type='tvshow'; DELETE FROM tvshowlinkpath WHERE idShow=old.idShow; DELETE FROM genre_link WHERE media_id=old.idShow AND media_type='tvshow'; DELETE FROM movielinktvshow WHERE idShow=old.idShow; DELETE FROM seasons WHERE idShow=old.idShow; DELETE FROM art WHERE media_id=old.idShow AND media_type='tvshow'; DELETE FROM tag_link WHERE media_id=old.idShow AND media_type='tvshow'; END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
+
+--
+-- Temporary table structure for view `tvshow_view`
+--
+
+DROP TABLE IF EXISTS `tvshow_view`;
+/*!50001 DROP VIEW IF EXISTS `tvshow_view`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE TABLE `tvshow_view` (
+  `idShow` tinyint NOT NULL,
+  `c00` tinyint NOT NULL,
+  `c01` tinyint NOT NULL,
+  `c02` tinyint NOT NULL,
+  `c03` tinyint NOT NULL,
+  `c04` tinyint NOT NULL,
+  `c05` tinyint NOT NULL,
+  `c06` tinyint NOT NULL,
+  `c07` tinyint NOT NULL,
+  `c08` tinyint NOT NULL,
+  `c09` tinyint NOT NULL,
+  `c10` tinyint NOT NULL,
+  `c11` tinyint NOT NULL,
+  `c12` tinyint NOT NULL,
+  `c13` tinyint NOT NULL,
+  `c14` tinyint NOT NULL,
+  `c15` tinyint NOT NULL,
+  `c16` tinyint NOT NULL,
+  `c17` tinyint NOT NULL,
+  `c18` tinyint NOT NULL,
+  `c19` tinyint NOT NULL,
+  `c20` tinyint NOT NULL,
+  `c21` tinyint NOT NULL,
+  `c22` tinyint NOT NULL,
+  `c23` tinyint NOT NULL,
+  `idParentPath` tinyint NOT NULL,
+  `strPath` tinyint NOT NULL,
+  `dateAdded` tinyint NOT NULL,
+  `lastPlayed` tinyint NOT NULL,
+  `totalCount` tinyint NOT NULL,
+  `watchedcount` tinyint NOT NULL,
+  `totalSeasons` tinyint NOT NULL
+) ENGINE=MyISAM */;
+SET character_set_client = @saved_cs_client;
 
 --
 -- Temporary table structure for view `tvshowcounts`
@@ -1356,50 +1185,6 @@ LOCK TABLES `tvshowlinkpath` WRITE;
 UNLOCK TABLES;
 
 --
--- Temporary table structure for view `tvshowview`
---
-
-DROP TABLE IF EXISTS `tvshowview`;
-/*!50001 DROP VIEW IF EXISTS `tvshowview`*/;
-SET @saved_cs_client     = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE TABLE `tvshowview` (
-  `idShow` tinyint NOT NULL,
-  `c00` tinyint NOT NULL,
-  `c01` tinyint NOT NULL,
-  `c02` tinyint NOT NULL,
-  `c03` tinyint NOT NULL,
-  `c04` tinyint NOT NULL,
-  `c05` tinyint NOT NULL,
-  `c06` tinyint NOT NULL,
-  `c07` tinyint NOT NULL,
-  `c08` tinyint NOT NULL,
-  `c09` tinyint NOT NULL,
-  `c10` tinyint NOT NULL,
-  `c11` tinyint NOT NULL,
-  `c12` tinyint NOT NULL,
-  `c13` tinyint NOT NULL,
-  `c14` tinyint NOT NULL,
-  `c15` tinyint NOT NULL,
-  `c16` tinyint NOT NULL,
-  `c17` tinyint NOT NULL,
-  `c18` tinyint NOT NULL,
-  `c19` tinyint NOT NULL,
-  `c20` tinyint NOT NULL,
-  `c21` tinyint NOT NULL,
-  `c22` tinyint NOT NULL,
-  `c23` tinyint NOT NULL,
-  `idParentPath` tinyint NOT NULL,
-  `strPath` tinyint NOT NULL,
-  `dateAdded` tinyint NOT NULL,
-  `lastPlayed` tinyint NOT NULL,
-  `totalCount` tinyint NOT NULL,
-  `watchedcount` tinyint NOT NULL,
-  `totalSeasons` tinyint NOT NULL
-) ENGINE=MyISAM */;
-SET character_set_client = @saved_cs_client;
-
---
 -- Table structure for table `version`
 --
 
@@ -1418,64 +1203,42 @@ CREATE TABLE `version` (
 
 LOCK TABLES `version` WRITE;
 /*!40000 ALTER TABLE `version` DISABLE KEYS */;
-INSERT INTO `version` VALUES (90,0);
+INSERT INTO `version` VALUES (93,0);
 /*!40000 ALTER TABLE `version` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `writerlinkepisode`
+-- Table structure for table `writer_link`
 --
 
-DROP TABLE IF EXISTS `writerlinkepisode`;
+DROP TABLE IF EXISTS `writer_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `writerlinkepisode` (
-  `idWriter` int(11) DEFAULT NULL,
-  `idEpisode` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_writerlinkepisode_1` (`idWriter`,`idEpisode`),
-  UNIQUE KEY `ix_writerlinkepisode_2` (`idEpisode`,`idWriter`)
+CREATE TABLE `writer_link` (
+  `actor_id` int(11) DEFAULT NULL,
+  `media_id` int(11) DEFAULT NULL,
+  `media_type` text,
+  UNIQUE KEY `ix_writer_link_1` (`actor_id`,`media_type`(20),`media_id`),
+  UNIQUE KEY `ix_writer_link_2` (`media_id`,`media_type`(20),`actor_id`),
+  KEY `ix_writer_link_3` (`media_type`(20))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `writerlinkepisode`
+-- Dumping data for table `writer_link`
 --
 
-LOCK TABLES `writerlinkepisode` WRITE;
-/*!40000 ALTER TABLE `writerlinkepisode` DISABLE KEYS */;
-/*!40000 ALTER TABLE `writerlinkepisode` ENABLE KEYS */;
+LOCK TABLES `writer_link` WRITE;
+/*!40000 ALTER TABLE `writer_link` DISABLE KEYS */;
+/*!40000 ALTER TABLE `writer_link` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
--- Table structure for table `writerlinkmovie`
+-- Final view structure for view `episode_view`
 --
 
-DROP TABLE IF EXISTS `writerlinkmovie`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `writerlinkmovie` (
-  `idWriter` int(11) DEFAULT NULL,
-  `idMovie` int(11) DEFAULT NULL,
-  UNIQUE KEY `ix_writerlinkmovie_1` (`idWriter`,`idMovie`),
-  UNIQUE KEY `ix_writerlinkmovie_2` (`idMovie`,`idWriter`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `writerlinkmovie`
---
-
-LOCK TABLES `writerlinkmovie` WRITE;
-/*!40000 ALTER TABLE `writerlinkmovie` DISABLE KEYS */;
-/*!40000 ALTER TABLE `writerlinkmovie` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Final view structure for view `episodeview`
---
-
-/*!50001 DROP TABLE IF EXISTS `episodeview`*/;
-/*!50001 DROP VIEW IF EXISTS `episodeview`*/;
+/*!50001 DROP TABLE IF EXISTS `episode_view`*/;
+/*!50001 DROP VIEW IF EXISTS `episode_view`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -1483,18 +1246,18 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `episodeview` AS select `episode`.`idEpisode` AS `idEpisode`,`episode`.`idFile` AS `idFile`,`episode`.`c00` AS `c00`,`episode`.`c01` AS `c01`,`episode`.`c02` AS `c02`,`episode`.`c03` AS `c03`,`episode`.`c04` AS `c04`,`episode`.`c05` AS `c05`,`episode`.`c06` AS `c06`,`episode`.`c07` AS `c07`,`episode`.`c08` AS `c08`,`episode`.`c09` AS `c09`,`episode`.`c10` AS `c10`,`episode`.`c11` AS `c11`,`episode`.`c12` AS `c12`,`episode`.`c13` AS `c13`,`episode`.`c14` AS `c14`,`episode`.`c15` AS `c15`,`episode`.`c16` AS `c16`,`episode`.`c17` AS `c17`,`episode`.`c18` AS `c18`,`episode`.`c19` AS `c19`,`episode`.`c20` AS `c20`,`episode`.`c21` AS `c21`,`episode`.`c22` AS `c22`,`episode`.`c23` AS `c23`,`episode`.`idShow` AS `idShow`,`files`.`strFilename` AS `strFileName`,`path`.`strPath` AS `strPath`,`files`.`playCount` AS `playCount`,`files`.`lastPlayed` AS `lastPlayed`,`files`.`dateAdded` AS `dateAdded`,`tvshow`.`c00` AS `strTitle`,`tvshow`.`c14` AS `strStudio`,`tvshow`.`c05` AS `premiered`,`tvshow`.`c13` AS `mpaa`,`bookmark`.`timeInSeconds` AS `resumeTimeInSeconds`,`bookmark`.`totalTimeInSeconds` AS `totalTimeInSeconds`,`seasons`.`idSeason` AS `idSeason` from (((((`episode` join `files` on((`files`.`idFile` = `episode`.`idFile`))) join `tvshow` on((`tvshow`.`idShow` = `episode`.`idShow`))) left join `seasons` on(((`seasons`.`idShow` = `episode`.`idShow`) and (`seasons`.`season` = `episode`.`c12`)))) join `path` on((`files`.`idPath` = `path`.`idPath`))) left join `bookmark` on(((`bookmark`.`idFile` = `episode`.`idFile`) and (`bookmark`.`type` = 1)))) */;
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `episode_view` AS select `episode`.`idEpisode` AS `idEpisode`,`episode`.`idFile` AS `idFile`,`episode`.`c00` AS `c00`,`episode`.`c01` AS `c01`,`episode`.`c02` AS `c02`,`episode`.`c03` AS `c03`,`episode`.`c04` AS `c04`,`episode`.`c05` AS `c05`,`episode`.`c06` AS `c06`,`episode`.`c07` AS `c07`,`episode`.`c08` AS `c08`,`episode`.`c09` AS `c09`,`episode`.`c10` AS `c10`,`episode`.`c11` AS `c11`,`episode`.`c12` AS `c12`,`episode`.`c13` AS `c13`,`episode`.`c14` AS `c14`,`episode`.`c15` AS `c15`,`episode`.`c16` AS `c16`,`episode`.`c17` AS `c17`,`episode`.`c18` AS `c18`,`episode`.`c19` AS `c19`,`episode`.`c20` AS `c20`,`episode`.`c21` AS `c21`,`episode`.`c22` AS `c22`,`episode`.`c23` AS `c23`,`episode`.`idShow` AS `idShow`,`files`.`strFilename` AS `strFileName`,`path`.`strPath` AS `strPath`,`files`.`playCount` AS `playCount`,`files`.`lastPlayed` AS `lastPlayed`,`files`.`dateAdded` AS `dateAdded`,`tvshow`.`c00` AS `strTitle`,`tvshow`.`c14` AS `studio`,`tvshow`.`c05` AS `premiered`,`tvshow`.`c13` AS `mpaa`,`bookmark`.`timeInSeconds` AS `resumeTimeInSeconds`,`bookmark`.`totalTimeInSeconds` AS `totalTimeInSeconds`,`seasons`.`idSeason` AS `idSeason` from (((((`episode` join `files` on((`files`.`idFile` = `episode`.`idFile`))) join `tvshow` on((`tvshow`.`idShow` = `episode`.`idShow`))) left join `seasons` on(((`seasons`.`idShow` = `episode`.`idShow`) and (`seasons`.`season` = `episode`.`c12`)))) join `path` on((`files`.`idPath` = `path`.`idPath`))) left join `bookmark` on(((`bookmark`.`idFile` = `episode`.`idFile`) and (`bookmark`.`type` = 1)))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `movieview`
+-- Final view structure for view `movie_view`
 --
 
-/*!50001 DROP TABLE IF EXISTS `movieview`*/;
-/*!50001 DROP VIEW IF EXISTS `movieview`*/;
+/*!50001 DROP TABLE IF EXISTS `movie_view`*/;
+/*!50001 DROP VIEW IF EXISTS `movie_view`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -1502,18 +1265,18 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `movieview` AS select `movie`.`idMovie` AS `idMovie`,`movie`.`idFile` AS `idFile`,`movie`.`c00` AS `c00`,`movie`.`c01` AS `c01`,`movie`.`c02` AS `c02`,`movie`.`c03` AS `c03`,`movie`.`c04` AS `c04`,`movie`.`c05` AS `c05`,`movie`.`c06` AS `c06`,`movie`.`c07` AS `c07`,`movie`.`c08` AS `c08`,`movie`.`c09` AS `c09`,`movie`.`c10` AS `c10`,`movie`.`c11` AS `c11`,`movie`.`c12` AS `c12`,`movie`.`c13` AS `c13`,`movie`.`c14` AS `c14`,`movie`.`c15` AS `c15`,`movie`.`c16` AS `c16`,`movie`.`c17` AS `c17`,`movie`.`c18` AS `c18`,`movie`.`c19` AS `c19`,`movie`.`c20` AS `c20`,`movie`.`c21` AS `c21`,`movie`.`c22` AS `c22`,`movie`.`c23` AS `c23`,`movie`.`idSet` AS `idSet`,`sets`.`strSet` AS `strSet`,`files`.`strFilename` AS `strFileName`,`path`.`strPath` AS `strPath`,`files`.`playCount` AS `playCount`,`files`.`lastPlayed` AS `lastPlayed`,`files`.`dateAdded` AS `dateAdded`,`bookmark`.`timeInSeconds` AS `resumeTimeInSeconds`,`bookmark`.`totalTimeInSeconds` AS `totalTimeInSeconds` from ((((`movie` left join `sets` on((`sets`.`idSet` = `movie`.`idSet`))) join `files` on((`files`.`idFile` = `movie`.`idFile`))) join `path` on((`path`.`idPath` = `files`.`idPath`))) left join `bookmark` on(((`bookmark`.`idFile` = `movie`.`idFile`) and (`bookmark`.`type` = 1)))) */;
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `movie_view` AS select `movie`.`idMovie` AS `idMovie`,`movie`.`idFile` AS `idFile`,`movie`.`c00` AS `c00`,`movie`.`c01` AS `c01`,`movie`.`c02` AS `c02`,`movie`.`c03` AS `c03`,`movie`.`c04` AS `c04`,`movie`.`c05` AS `c05`,`movie`.`c06` AS `c06`,`movie`.`c07` AS `c07`,`movie`.`c08` AS `c08`,`movie`.`c09` AS `c09`,`movie`.`c10` AS `c10`,`movie`.`c11` AS `c11`,`movie`.`c12` AS `c12`,`movie`.`c13` AS `c13`,`movie`.`c14` AS `c14`,`movie`.`c15` AS `c15`,`movie`.`c16` AS `c16`,`movie`.`c17` AS `c17`,`movie`.`c18` AS `c18`,`movie`.`c19` AS `c19`,`movie`.`c20` AS `c20`,`movie`.`c21` AS `c21`,`movie`.`c22` AS `c22`,`movie`.`c23` AS `c23`,`movie`.`idSet` AS `idSet`,`sets`.`strSet` AS `strSet`,`files`.`strFilename` AS `strFileName`,`path`.`strPath` AS `strPath`,`files`.`playCount` AS `playCount`,`files`.`lastPlayed` AS `lastPlayed`,`files`.`dateAdded` AS `dateAdded`,`bookmark`.`timeInSeconds` AS `resumeTimeInSeconds`,`bookmark`.`totalTimeInSeconds` AS `totalTimeInSeconds` from ((((`movie` left join `sets` on((`sets`.`idSet` = `movie`.`idSet`))) join `files` on((`files`.`idFile` = `movie`.`idFile`))) join `path` on((`path`.`idPath` = `files`.`idPath`))) left join `bookmark` on(((`bookmark`.`idFile` = `movie`.`idFile`) and (`bookmark`.`type` = 1)))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `musicvideoview`
+-- Final view structure for view `musicvideo_view`
 --
 
-/*!50001 DROP TABLE IF EXISTS `musicvideoview`*/;
-/*!50001 DROP VIEW IF EXISTS `musicvideoview`*/;
+/*!50001 DROP TABLE IF EXISTS `musicvideo_view`*/;
+/*!50001 DROP VIEW IF EXISTS `musicvideo_view`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -1521,18 +1284,18 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `musicvideoview` AS select `musicvideo`.`idMVideo` AS `idMVideo`,`musicvideo`.`idFile` AS `idFile`,`musicvideo`.`c00` AS `c00`,`musicvideo`.`c01` AS `c01`,`musicvideo`.`c02` AS `c02`,`musicvideo`.`c03` AS `c03`,`musicvideo`.`c04` AS `c04`,`musicvideo`.`c05` AS `c05`,`musicvideo`.`c06` AS `c06`,`musicvideo`.`c07` AS `c07`,`musicvideo`.`c08` AS `c08`,`musicvideo`.`c09` AS `c09`,`musicvideo`.`c10` AS `c10`,`musicvideo`.`c11` AS `c11`,`musicvideo`.`c12` AS `c12`,`musicvideo`.`c13` AS `c13`,`musicvideo`.`c14` AS `c14`,`musicvideo`.`c15` AS `c15`,`musicvideo`.`c16` AS `c16`,`musicvideo`.`c17` AS `c17`,`musicvideo`.`c18` AS `c18`,`musicvideo`.`c19` AS `c19`,`musicvideo`.`c20` AS `c20`,`musicvideo`.`c21` AS `c21`,`musicvideo`.`c22` AS `c22`,`musicvideo`.`c23` AS `c23`,`files`.`strFilename` AS `strFileName`,`path`.`strPath` AS `strPath`,`files`.`playCount` AS `playCount`,`files`.`lastPlayed` AS `lastPlayed`,`files`.`dateAdded` AS `dateAdded`,`bookmark`.`timeInSeconds` AS `resumeTimeInSeconds`,`bookmark`.`totalTimeInSeconds` AS `totalTimeInSeconds` from (((`musicvideo` join `files` on((`files`.`idFile` = `musicvideo`.`idFile`))) join `path` on((`path`.`idPath` = `files`.`idPath`))) left join `bookmark` on(((`bookmark`.`idFile` = `musicvideo`.`idFile`) and (`bookmark`.`type` = 1)))) */;
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `musicvideo_view` AS select `musicvideo`.`idMVideo` AS `idMVideo`,`musicvideo`.`idFile` AS `idFile`,`musicvideo`.`c00` AS `c00`,`musicvideo`.`c01` AS `c01`,`musicvideo`.`c02` AS `c02`,`musicvideo`.`c03` AS `c03`,`musicvideo`.`c04` AS `c04`,`musicvideo`.`c05` AS `c05`,`musicvideo`.`c06` AS `c06`,`musicvideo`.`c07` AS `c07`,`musicvideo`.`c08` AS `c08`,`musicvideo`.`c09` AS `c09`,`musicvideo`.`c10` AS `c10`,`musicvideo`.`c11` AS `c11`,`musicvideo`.`c12` AS `c12`,`musicvideo`.`c13` AS `c13`,`musicvideo`.`c14` AS `c14`,`musicvideo`.`c15` AS `c15`,`musicvideo`.`c16` AS `c16`,`musicvideo`.`c17` AS `c17`,`musicvideo`.`c18` AS `c18`,`musicvideo`.`c19` AS `c19`,`musicvideo`.`c20` AS `c20`,`musicvideo`.`c21` AS `c21`,`musicvideo`.`c22` AS `c22`,`musicvideo`.`c23` AS `c23`,`files`.`strFilename` AS `strFileName`,`path`.`strPath` AS `strPath`,`files`.`playCount` AS `playCount`,`files`.`lastPlayed` AS `lastPlayed`,`files`.`dateAdded` AS `dateAdded`,`bookmark`.`timeInSeconds` AS `resumeTimeInSeconds`,`bookmark`.`totalTimeInSeconds` AS `totalTimeInSeconds` from (((`musicvideo` join `files` on((`files`.`idFile` = `musicvideo`.`idFile`))) join `path` on((`path`.`idPath` = `files`.`idPath`))) left join `bookmark` on(((`bookmark`.`idFile` = `musicvideo`.`idFile`) and (`bookmark`.`type` = 1)))) */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
 
 --
--- Final view structure for view `seasonview`
+-- Final view structure for view `season_view`
 --
 
-/*!50001 DROP TABLE IF EXISTS `seasonview`*/;
-/*!50001 DROP VIEW IF EXISTS `seasonview`*/;
+/*!50001 DROP TABLE IF EXISTS `season_view`*/;
+/*!50001 DROP VIEW IF EXISTS `season_view`*/;
 /*!50001 SET @saved_cs_client          = @@character_set_client */;
 /*!50001 SET @saved_cs_results         = @@character_set_results */;
 /*!50001 SET @saved_col_connection     = @@collation_connection */;
@@ -1540,8 +1303,27 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `seasonview` AS select `seasons`.`idSeason` AS `idSeason`,`seasons`.`idShow` AS `idShow`,`seasons`.`season` AS `season`,`tvshowview`.`strPath` AS `strPath`,`tvshowview`.`c00` AS `showTitle`,`tvshowview`.`c01` AS `plot`,`tvshowview`.`c05` AS `premiered`,`tvshowview`.`c08` AS `genre`,`tvshowview`.`c14` AS `strStudio`,`tvshowview`.`c13` AS `mpaa`,count(distinct `episodeview`.`idEpisode`) AS `episodes`,count(`files`.`playCount`) AS `playCount` from (((`seasons` join `tvshowview` on((`tvshowview`.`idShow` = `seasons`.`idShow`))) join `episodeview` on(((`episodeview`.`idShow` = `seasons`.`idShow`) and (`episodeview`.`c12` = `seasons`.`season`)))) join `files` on((`files`.`idFile` = `episodeview`.`idFile`))) group by `seasons`.`idSeason` */;
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `season_view` AS select `seasons`.`idSeason` AS `idSeason`,`seasons`.`idShow` AS `idShow`,`seasons`.`season` AS `season`,`tvshow_view`.`strPath` AS `strPath`,`tvshow_view`.`c00` AS `showTitle`,`tvshow_view`.`c01` AS `plot`,`tvshow_view`.`c05` AS `premiered`,`tvshow_view`.`c08` AS `genre`,`tvshow_view`.`c14` AS `studio`,`tvshow_view`.`c13` AS `mpaa`,count(distinct `episode_view`.`idEpisode`) AS `episodes`,count(`files`.`playCount`) AS `playCount` from (((`seasons` join `tvshow_view` on((`tvshow_view`.`idShow` = `seasons`.`idShow`))) join `episode_view` on(((`episode_view`.`idShow` = `seasons`.`idShow`) and (`episode_view`.`c12` = `seasons`.`season`)))) join `files` on((`files`.`idFile` = `episode_view`.`idFile`))) group by `seasons`.`idSeason` */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `tvshow_view`
+--
+
+/*!50001 DROP TABLE IF EXISTS `tvshow_view`*/;
+/*!50001 DROP VIEW IF EXISTS `tvshow_view`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8 */;
+/*!50001 SET character_set_results     = utf8 */;
+/*!50001 SET collation_connection      = utf8_general_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `tvshow_view` AS select `tvshow`.`idShow` AS `idShow`,`tvshow`.`c00` AS `c00`,`tvshow`.`c01` AS `c01`,`tvshow`.`c02` AS `c02`,`tvshow`.`c03` AS `c03`,`tvshow`.`c04` AS `c04`,`tvshow`.`c05` AS `c05`,`tvshow`.`c06` AS `c06`,`tvshow`.`c07` AS `c07`,`tvshow`.`c08` AS `c08`,`tvshow`.`c09` AS `c09`,`tvshow`.`c10` AS `c10`,`tvshow`.`c11` AS `c11`,`tvshow`.`c12` AS `c12`,`tvshow`.`c13` AS `c13`,`tvshow`.`c14` AS `c14`,`tvshow`.`c15` AS `c15`,`tvshow`.`c16` AS `c16`,`tvshow`.`c17` AS `c17`,`tvshow`.`c18` AS `c18`,`tvshow`.`c19` AS `c19`,`tvshow`.`c20` AS `c20`,`tvshow`.`c21` AS `c21`,`tvshow`.`c22` AS `c22`,`tvshow`.`c23` AS `c23`,`path`.`idParentPath` AS `idParentPath`,`path`.`strPath` AS `strPath`,`tvshowcounts`.`dateAdded` AS `dateAdded`,`tvshowcounts`.`lastPlayed` AS `lastPlayed`,`tvshowcounts`.`totalCount` AS `totalCount`,`tvshowcounts`.`watchedcount` AS `watchedcount`,`tvshowcounts`.`totalSeasons` AS `totalSeasons` from (((`tvshow` left join `tvshowlinkpath` on((`tvshowlinkpath`.`idShow` = `tvshow`.`idShow`))) left join `path` on((`path`.`idPath` = `tvshowlinkpath`.`idPath`))) join `tvshowcounts` on((`tvshow`.`idShow` = `tvshowcounts`.`idShow`))) group by `tvshow`.`idShow` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1559,27 +1341,8 @@ UNLOCK TABLES;
 /*!50001 SET character_set_results     = utf8 */;
 /*!50001 SET collation_connection      = utf8_general_ci */;
 /*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
+/*!50013 DEFINER=`kodi`@`localhost` SQL SECURITY DEFINER */
 /*!50001 VIEW `tvshowcounts` AS select `tvshow`.`idShow` AS `idShow`,max(`files`.`lastPlayed`) AS `lastPlayed`,nullif(count(`episode`.`c12`),0) AS `totalCount`,count(`files`.`playCount`) AS `watchedcount`,nullif(count(distinct `episode`.`c12`),0) AS `totalSeasons`,max(`files`.`dateAdded`) AS `dateAdded` from ((`tvshow` left join `episode` on((`episode`.`idShow` = `tvshow`.`idShow`))) left join `files` on((`files`.`idFile` = `episode`.`idFile`))) group by `tvshow`.`idShow` */;
-/*!50001 SET character_set_client      = @saved_cs_client */;
-/*!50001 SET character_set_results     = @saved_cs_results */;
-/*!50001 SET collation_connection      = @saved_col_connection */;
-
---
--- Final view structure for view `tvshowview`
---
-
-/*!50001 DROP TABLE IF EXISTS `tvshowview`*/;
-/*!50001 DROP VIEW IF EXISTS `tvshowview`*/;
-/*!50001 SET @saved_cs_client          = @@character_set_client */;
-/*!50001 SET @saved_cs_results         = @@character_set_results */;
-/*!50001 SET @saved_col_connection     = @@collation_connection */;
-/*!50001 SET character_set_client      = utf8 */;
-/*!50001 SET character_set_results     = utf8 */;
-/*!50001 SET collation_connection      = utf8_general_ci */;
-/*!50001 CREATE ALGORITHM=UNDEFINED */
-/*!50013 DEFINER=`kodi`@`%` SQL SECURITY DEFINER */
-/*!50001 VIEW `tvshowview` AS select `tvshow`.`idShow` AS `idShow`,`tvshow`.`c00` AS `c00`,`tvshow`.`c01` AS `c01`,`tvshow`.`c02` AS `c02`,`tvshow`.`c03` AS `c03`,`tvshow`.`c04` AS `c04`,`tvshow`.`c05` AS `c05`,`tvshow`.`c06` AS `c06`,`tvshow`.`c07` AS `c07`,`tvshow`.`c08` AS `c08`,`tvshow`.`c09` AS `c09`,`tvshow`.`c10` AS `c10`,`tvshow`.`c11` AS `c11`,`tvshow`.`c12` AS `c12`,`tvshow`.`c13` AS `c13`,`tvshow`.`c14` AS `c14`,`tvshow`.`c15` AS `c15`,`tvshow`.`c16` AS `c16`,`tvshow`.`c17` AS `c17`,`tvshow`.`c18` AS `c18`,`tvshow`.`c19` AS `c19`,`tvshow`.`c20` AS `c20`,`tvshow`.`c21` AS `c21`,`tvshow`.`c22` AS `c22`,`tvshow`.`c23` AS `c23`,`path`.`idParentPath` AS `idParentPath`,`path`.`strPath` AS `strPath`,`tvshowcounts`.`dateAdded` AS `dateAdded`,`tvshowcounts`.`lastPlayed` AS `lastPlayed`,`tvshowcounts`.`totalCount` AS `totalCount`,`tvshowcounts`.`watchedcount` AS `watchedcount`,`tvshowcounts`.`totalSeasons` AS `totalSeasons` from (((`tvshow` left join `tvshowlinkpath` on((`tvshowlinkpath`.`idShow` = `tvshow`.`idShow`))) left join `path` on((`path`.`idPath` = `tvshowlinkpath`.`idPath`))) join `tvshowcounts` on((`tvshow`.`idShow` = `tvshowcounts`.`idShow`))) group by `tvshow`.`idShow` */;
 /*!50001 SET character_set_client      = @saved_cs_client */;
 /*!50001 SET character_set_results     = @saved_cs_results */;
 /*!50001 SET collation_connection      = @saved_col_connection */;
@@ -1593,4 +1356,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-24 19:10:46
+-- Dump completed on 2015-10-09 19:05:29
