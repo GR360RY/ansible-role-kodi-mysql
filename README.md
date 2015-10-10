@@ -17,8 +17,7 @@ Role Variables
 --------------
 
  name                       | default                              
-----------------------------|--------------------------------------
- kodi_mysqldb_host          | "{{ ansible_default_ipv4.address }}" 
+----------------------------|----------
  kodi_mysqldb_user          | kodi
  kodi_mysqldb_password      | kodi
 
