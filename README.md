@@ -8,7 +8,7 @@ An ansible role to setup and configure Kodi Mysql Database under Debian based di
 Requirements
 ------------
 
-This role requires Ansible 1.6 or higher. Platform requirements are listed in the metadata file.
+This role requires Ansible 2.0 or higher. Platform requirements are listed in the metadata file.
 
 Overview
 --------

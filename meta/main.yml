@@ -3,13 +3,13 @@ galaxy_info:
   author: Gregory Shulov
   description: Configure and Install Mysql Database for Kodi
   license: BSD
-  min_ansible_version: 1.2
+  min_ansible_version: 2.0
   platforms:
   - name: Ubuntu
     versions:
-    - trusty
-  categories:
-  - system
+      - trusty
+  galaxy_tags:
+    - htpc
+    - system
 dependencies:
-  - GR360RY.htpc-user
-  - GR360RY.htpc-media
+  - GR360RY.htpc-common
