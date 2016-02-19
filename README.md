@@ -3,7 +3,7 @@ kodi-mysql
 
 [![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.kodi--mysql-green.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/3098)
 
-An ansible role to setup and configure Kodi Mysql Database under Debian based distro's. This role creates empty Music and Videos Databases with preconfigured media paths.
+An ansible role to setup and configure Kodi Mysql Database. This role creates empty Music and Videos Databases with preconfigured media paths.
 
 Requirements
 ------------
@@ -25,9 +25,9 @@ Role Variables
 Dependencies
 ------------
 
- Role Name| Description
+Role Name| Description
 ----------|-----------
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--common-green.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/htpc-common/)
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--common-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/htpc-common/)| Create htpc user and media folders|
 
 Variables defined in `GR360RY.htpc-common` role:
 
