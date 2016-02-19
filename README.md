@@ -27,28 +27,25 @@ Dependencies
 
  Role Name| Description
 ----------|-----------
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--user-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645) | Create htpc user on Linux.
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--media-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4926)| Create HTPC Media Folders.
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--common-green.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/htpc-common/)
 
-Variables defined in `GR360RY.htpc-user` role:
+Variables defined in `GR360RY.htpc-common` role:
 
- GR360RY.htpc-user        | Default       | Comment          
---------------------------|---------------|---------
- htpc_user_username       | htpc          | Username
- htpc_user_password       | htpc          | Password
- htpc_user_shell          | /bin/bash     | Shell
- htpc_user_ssh_service    | yes           | Install sshd service
- htpc_user_sudo_access    | yes           | Sudo Access
-
-Variables defined in `GR360RY.htpc-media` role:
-
- GR360RY.htpc-media       | Default       | Comment          
---------------------------|---------------|---------
- htpc_media_path          | /mnt/media    |
- htpc_media_movies        | movies        |
- htpc_media_tv            | tv            |
- htpc_media_music         | music         |
- htpc_media_pictures      | pictures      |
+ Name                   | Default   
+----------------------- |------------
+ htpc_user_username     | htpc      
+ htpc_user_password     | htpc      
+ htpc_user_group        | htpc      
+ htpc_user_shell        | /bin/bash 
+ htpc_user_ssh_service  | yes       
+ htpc_user_sudo_access  | yes       
+ htpc_media_path        | /mnt/media
+ htpc_media_movies      | movies    
+ htpc_media_tv          | tv        
+ htpc_media_music       | music     
+ htpc_media_pictures    | pictures  
+ htpc_media_downloads   | downloads
+ htpc_zeroconf          | yes 
 
 
 Example Playbook
@@ -86,22 +83,21 @@ This role is part of HTPC-Ansible project that includes additional roles for bui
 
  Role name               | Comment
 -------------------------|-----------------------------
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--user-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645) |  Create htpc user on Linux
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--media-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)      | Create htpc media folders
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--nas-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Configure NAS ( NFS, CIFS and AFP )
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.kodi--client-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/3098)    | Install Kodi Media Player
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.kodi--mysql-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install MySQL Backend for Kodi
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.deluge-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install Deluged Bittornet Client
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.sabnzbd-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install Sabnzbd
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.nzbtomedia-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install NZBtoMedia Postprocessing
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.sickbeard-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install SickRage
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.couchpotato-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install CouchPotato
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--manager-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install htpc-manager
-[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.tvheadend-blue.svg?style=flat-square)](https://galaxy.ansible.com/list#/roles/4645)    | Install Tvheadend
-
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--common-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/htpc-common)   | Create htpc user and media folders
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--nas-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/htpc-nas)         | Configure NAS ( NFS, CIFS and AFP )
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.kodi--client-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/kodi-client)   | Install Kodi Media Player
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.kodi--mysql-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/kodi-mysql)     | Install MySQL Backend for Kodi
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.deluge-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/deluge)              | Install Deluge Bittornet Client
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.nzbtomedia-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/nzbtomedia)      | Install NZBtoMedia Postprocessing
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.sickrage-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/sickrage)          | Install SickRage
+<!-- 
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.sabnzbd-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/sabnzbd)            | Install Sabnzbd
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.couchpotato-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/couchpotato)    | Install CouchPotato
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.htpc--manager-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/htpc-manager) | Install htpc-manager
+[![Galaxy](http://img.shields.io/badge/galaxy-GR360RY.tvheadend-blue.svg?style=flat-square)](https://galaxy.ansible.com/GR360RY/tvheadend)        | Install Tvheadend
 
 Additional Info is available at [www.htpc-ansible.org](http://www.htpc-ansible.org)
-
+ -->
 License
 -------
 
