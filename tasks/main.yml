@@ -53,3 +53,5 @@
 
 - name: Make sure MySQL is running and started on boot
   service: name=mysql state=started enabled=yes
+
+- meta: flush_handlers
